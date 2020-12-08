@@ -8,6 +8,7 @@
     ```bash
     sudo apt install npm
     npm install
+    npm install axios --save
     ```
   
 * Database creation and configuration
@@ -20,7 +21,7 @@
      ```bash
      sudo -u postgres psql postgres
      ```
-    ##### Change PostgreSQL user (postgres) password
+    ##### Change PostgreSQL user (postgres) password (password = yo-ruby)
     ```bash
     \password postgres
     ```
@@ -28,7 +29,11 @@
      ```bash
      CREATE DATABASE postgresdb OWNER postgres;
      ```
-    
+    ##### Create db migration
+    ```bash
+    rails db:migrate
+    ```
+  
     *Solution of psql: FATAL: Peer authentication failed for user “postgres” (or any user)*
      ##### Update ‘pg_hba.conf’ file
      1. *Locate the pg_hba.conf (copy this path and run the next command)*
@@ -50,6 +55,8 @@
 * Frontend configuration
     ```bash
     bin/rails webpacker:install
+    rails webpacker:install:react
+    rails generate react:install
     ```
   or 
   ```bash
@@ -61,4 +68,3 @@
     rails s
     rspec
     ```
-  
