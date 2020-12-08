@@ -47,4 +47,18 @@
         ```bash
         local   all             postgres                              md5
         ```
-       
+* Frontend configuration
+    ```bash
+    bin/rails webpacker:install
+    ```
+  or 
+  ```bash
+  rails webpacker:install:[react, angular or vue] (optional)
+  ```
+  
+* Test application
+    ```bash
+    rails s
+    rspec
+    ```
+  
