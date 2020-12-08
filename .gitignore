@@ -1,3 +1,4 @@
 .idea/*
 /tmp/*
 /package-lock.json
+log/development.log
