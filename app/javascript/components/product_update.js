@@ -12,7 +12,7 @@ export function UpdateProduct({i, id, setProduct}) {
     };
     const update = () => axios({
             method: 'PUT',
-            url: `/products/${id}`,
+            url: `/api/products/${id}`,
             data: productInfo
         })
         .then(({data}) => {

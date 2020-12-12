@@ -1,5 +1,7 @@
 class ProductsController < ActionController::Base
+  before_action :manager?, except: [:index]
   def index
+    # User.find(current_user.id).update_attribute(:role, "manager")
     render json: Product.all
   end
 
@@ -22,5 +24,9 @@ class ProductsController < ActionController::Base
 
   def product_params
     params.require(:product).permit(:name)
+  end
+
+  def manager?
+    render json: { error: 'You are not a page!' } unless User.find(current_user.id).role == 'manager'
   end
 end

@@ -12,7 +12,7 @@ export function AddProduct({setProduct}) {
     };
     const add = () => axios({
             method: 'POST',
-            url: '/products',
+            url: '/api/products',
             data: productInfo,
         }).then(({data}) => {
             setProduct((prev) => {

@@ -4,7 +4,7 @@ import React from "react";
 export function RemoveProduct({id, i, setProduct}) {
     const remove = () => axios({
             method: 'DELETE',
-            url: `/products/${id}`
+            url: `/api/products/${id}`
         }).then(() => {
             setProduct((prev) => {
                 const newList = [...prev]

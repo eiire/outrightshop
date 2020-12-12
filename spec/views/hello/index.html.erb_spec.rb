@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'yo/yo.html.erb', type: :view do
+RSpec.describe 'page/page.html.erb', type: :view do
   it 'renders "Hello World"' do
     render
     expect(rendered).to match(/YO/)

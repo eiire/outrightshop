@@ -5,32 +5,53 @@ import {RemoveProduct} from './product_remove'
 import {UpdateProduct} from './product_update'
 
 
-function ProductList() {
-    const [productState, setProductState] = useState([]);
+function ProductList({props}) {
+    const [productState, setProductState] = useState({products:[], role: 'user', loaded: false});
+    let user_role;
 
     useEffect(() => {
+        // self-invoking so that there is no redirect to '/api/roles'
+        (function () {
+            axios({
+                method: 'GET',
+                url: '/api/roles'
+            }).then(({data}) => {
+                user_role = data.role
+            })
+        }())
+
         axios({
             method: 'GET',
-            url: '/products'
-        })
-        .then(({data}) => {
-            setProductState(data);
+            url: '/api/products'
+        }).then(({data}) => {
+            setProductState({loaded: true, role: user_role, products: data})
+            console.log(productState)
         })
     }, []);
 
     return (
         <div>
-            <h1>These are our products</h1>
-            {productState.map((product, i)=>(
-                <div key={product.id}>
-                    <br/>
-                    <a href='#'>{product.name}</a>
-                    <RemoveProduct id={product.id} i={i} setProduct={setProductState} />
-                    <UpdateProduct id={product.id} i={i} setProduct={setProductState} productInfo={productState}/>
-                </div>
+            <h1>These are our products </h1>
+            {productState.role === 'manager' && props.page === 'manager'
+                ? productState.products.map((product, i)=>(
+                    <div key={product.id}>
+                        <br/>
+                        <a href='#'>{product.name}</a>
+                        <RemoveProduct id={product.id} i={i} setProduct={setProductState} />
+                        <UpdateProduct id={product.id} i={i} setProduct={setProductState} productInfo={productState}/>
+                    </div>
+                ))
+                : productState.products.map((product, i)=>(
+                    <div key={product.id}>
+                        <br/>
+                        <a href='#'>{product.name}</a>
+                    </div>
             ))}
-            <br/>
-            <AddProduct setProduct={setProductState}/>
+
+            {productState.role === 'manager' && props.page === 'manager'
+                    ? <AddProduct setProduct={setProductState}/>
+                    : <div/>
+            }
         </div>
     )
 }

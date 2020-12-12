@@ -38,6 +38,7 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'simplecov'
+  gem 'devise'
   gem 'react-rails', '~> 1.7', '>= 1.7.1'
 end
 
