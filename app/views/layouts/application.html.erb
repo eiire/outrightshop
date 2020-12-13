@@ -1,13 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>RailsStarterProject</title>
+    <title>OutrightShop</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+          crossorigin="anonymous">
   </head>
+
+  <nav class="nav">
+  </nav>
+
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+      Outrighshop
+    </a>
+    <div>
+      <% if user_signed_in? %>
+        <span>YO, <%= current_user.email %></span>
+        <%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>
+      <% else %>
+        <%= link_to 'Войти', new_user_session_path %> или <%= link_to 'Зарегистрироваться', new_user_registration_path %>
+      <% end %>
+    </div>
+  </nav>
 
   <body>
     <%= yield %>

@@ -25,10 +25,10 @@ export function UpdateProduct({i, id, setProduct}) {
 
     return (
         <form>
-            <label>Name:
+            <div>Name:&nbsp;
                 <input onChange={changeHandler} type="text" id="name" value={productInfo.name}/>
-            </label>
-            <button onClick={update}>Update Product</button>
+            </div>
+            <button onClick={update} className="btn btn-light">Update Product</button>
         </form>
     )
 }

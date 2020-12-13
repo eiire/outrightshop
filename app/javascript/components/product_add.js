@@ -28,7 +28,7 @@ export function AddProduct({setProduct}) {
             <label>Name:
                 <input onChange={changeHandler} type="text" id="name" value={productInfo.name}/>
             </label>
-            <button onClick={add}>Add Product</button>
+            <button className="btn btn-light" onClick={add}>Add Product</button>
         </form>
     )
 }
