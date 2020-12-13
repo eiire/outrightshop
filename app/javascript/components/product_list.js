@@ -10,23 +10,23 @@ function ProductList({props}) {
     let user_role;
 
     useEffect(() => {
-        // self-invoking so that there is no redirect to '/api/roles'
-        (function () {
-            axios({
-                method: 'GET',
-                url: '/api/roles'
-            }).then(({data}) => {
-                user_role = data.role
-            })
+        (async function() {
+            await Promise.all([
+                await axios({
+                    method: 'GET',
+                    url: '/api/roles'
+                }).then(({data}) => {
+                    user_role = data.role
+                }),
+                await axios({
+                    method: 'GET',
+                    url: '/api/products'
+                }).then(({data}) => {
+                    setProductState({loaded: true, role: user_role, products: data})
+                    console.log(productState)
+                })
+            ])
         }())
-
-        axios({
-            method: 'GET',
-            url: '/api/products'
-        }).then(({data}) => {
-            setProductState({loaded: true, role: user_role, products: data})
-            console.log(productState)
-        })
     }, []);
 
     return (
@@ -37,7 +37,7 @@ function ProductList({props}) {
                     <div key={product.id}>
                         <br/>
                         <a href='#'>{product.name}</a>
-                        <RemoveProduct id={product.id} i={i} setProduct={setProductState} />
+                        <RemoveProduct id={product.id} i={i} setProduct={setProductState} state={productState}/>
                         <UpdateProduct id={product.id} i={i} setProduct={setProductState} productInfo={productState}/>
                     </div>
                 ))
