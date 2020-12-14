@@ -9,13 +9,18 @@
     sudo apt install npm
     npm install
     npm install axios --save
+    npm install yarn
+    yarn install
     ```
+    ######And to disable this check, please change `check_yarn_integrity`
+    to `false` in your webpacker config file (config/webpacker.yml).
   
 * Database creation and configuration
     ##### Installing PostgreSQL
      ```bash
      sudo apt update
      sudo apt install postgresql postgresql-contrib
+     sudo apt-get install libpq-dev
      ```
     ##### Switching to PostgreSQL account
      ```bash
@@ -31,9 +36,23 @@
      ```
     ##### Create db migration
     ```bash
+    rails generate devise:install
     rails db:migrate
     ```
-  
+    *Solution of abort in rails generate devise:install.*
+        I think there is devise_for :installs in your route.rb file and you should comment it out. Then you should try to rerun rails generate devise:install and uncomment route after.
+    
+    *Solution of PG::UndefinedTable: ERROR:  relation "users" does not exist*
+    1. Delete file from migrate/20201212060305_add_role_to_users.rb (Copy this file anywhere!)
+    2. Start migrate
+    ```bash
+        rails db:migrate
+    ```
+    And restore 20201212060305_add_role_to_users.rb in migrate folder and start migrate again
+    ```bash
+        rails db:migrate
+    ```
+    
     *Solution of psql: FATAL: Peer authentication failed for user “postgres” (or any user)*
      ##### Update ‘pg_hba.conf’ file
      1. *Locate the pg_hba.conf (copy this path and run the next command)*
@@ -52,9 +71,13 @@
         ```bash
         local   all             postgres                              md5
         ```
+    4. Restart service
+        ```bash
+        sudo service postgresql restart
+        ```
 * Frontend configuration
     ```bash
-    bin/rails webpacker:install
+    bin/rails webpacker:install (if asked you need to enter [m])
     rails webpacker:install:react
     rails generate react:install
     ```
@@ -68,3 +91,4 @@
     rails s
     rspec
     ```
+  
