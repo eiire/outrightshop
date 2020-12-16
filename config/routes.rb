@@ -9,4 +9,7 @@ Rails.application.routes.draw do
   scope '/api' do
     resources :roles, only: %i[index]
   end
+  scope '/api' do
+    resources :requests, only: %i[index]
+  end
 end
