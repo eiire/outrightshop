@@ -12,12 +12,11 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react_ujs": "^2.6.1",
-    "turbolinks": "^5.2.0",
-    "yarn": "^1.22.10"
+    "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "@babel/preset-react": "^7.12.10",
+    "@babel/preset-react": "^7.12.7",
     "webpack-dev-server": "^3.11.0"
   }
 }

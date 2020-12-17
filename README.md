@@ -3,17 +3,13 @@
 * Setup Ruby version 2.7.2 for project on the Linux OS:
     1. [Installation instructions Ruby 2.7.2](https://www.techiediaries.com/install-ruby-2-7-rails-6-ubuntu-20-04/).
     2. *RubyMine* guide: Settings -> Language & Frameworks -> RubySDK and Gems. Choose rbenv: 2.7.2.
-    
-* System dependencies
+
+* Install npm, nodejs and yarn before deployment, all installation instructions are available online
+
+* Install gems
     ```bash
-    sudo apt install npm
-    npm install
-    npm install axios --save
-    npm install yarn
-    yarn install
-    ```
-    ######And to disable this check, please change `check_yarn_integrity`
-    to `false` in your webpacker config file (config/webpacker.yml).
+     bundle install
+     ```
   
 * Database creation and configuration
     ##### Installing PostgreSQL
@@ -77,14 +73,8 @@
         ```
 * Frontend configuration
     ```bash
-    bin/rails webpacker:install (if asked you need to enter [m])
-    rails webpacker:install:react
-    rails generate react:install
+    npm install
     ```
-  or 
-  ```bash
-  rails webpacker:install:[react, angular or vue] (optional)
-  ```
   
 * Test application
     ```bash
