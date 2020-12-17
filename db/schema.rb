@@ -22,10 +22,12 @@ ActiveRecord::Schema.define(version: 2020_12_16_072734) do
   end
 
   create_table "requests", force: :cascade do |t|
-    t.string "type"
+    t.string "type_req"
     t.bigint "user_id"
+    t.bigint "product_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_requests_on_product_id"
     t.index ["user_id"], name: "index_requests_on_user_id"
   end
 

@@ -10,6 +10,6 @@ Rails.application.routes.draw do
     resources :roles, only: %i[index]
   end
   scope '/api' do
-    resources :requests, only: %i[index]
+    resources :requests, only: %i[create index update destroy]
   end
 end
