@@ -1,10 +1,10 @@
 # OutrightShop
 
+* Install npm, nodejs, yarn and postgresdb before deployment, all installation instructions are available online!
+
 * Setup Ruby version 2.7.2 for project on the Linux OS:
     1. [Installation instructions Ruby 2.7.2](https://www.techiediaries.com/install-ruby-2-7-rails-6-ubuntu-20-04/).
     2. *RubyMine* guide: Settings -> Language & Frameworks -> RubySDK and Gems. Choose rbenv: 2.7.2.
-
-* Install npm, nodejs and yarn before deployment, all installation instructions are available online
 
 * Install gems
     ```bash
@@ -75,6 +75,10 @@
     ```bash
     npm install
     ```
+  If it does not work, refer to the instructions on the [link](https://stackoverflow.com/questions/46013544/yarn-install-command-error-no-such-file-or-directory-install)
+  ```bash
+  yarn install
+  ```
   
 * Test application
     ```bash

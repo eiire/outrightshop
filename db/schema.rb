@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_12_16_072734) do
 
   create_table "requests", force: :cascade do |t|
     t.string "type_req"
+    t.integer "operator_id"
     t.bigint "user_id"
     t.bigint "product_id"
     t.datetime "created_at", precision: 6, null: false

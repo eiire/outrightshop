@@ -1,26 +1,60 @@
 class RequestsController < ActionController::Base
   before_action :operator?, except: [:index, :create]
   def index
-    render json: Request.find_by_user_id(current_user.id)
+    begin
+      user_role = User.find(current_user.id).role
+      if (user_role == 'user') || (user_role == 'manager')
+        render json: Request.find_by_sql("SELECT \"requests\".* FROM \"requests\" WHERE \"requests\".\"user_id\" = #{current_user.id}")
+      else
+        render json: Request.find_by_sql("SELECT \"requests\".* FROM \"requests\" WHERE \"requests\".\"operator_id\" = #{current_user.id}")
+      end
+    rescue
+      render json: { role: 'anonymous' }
+    end
   end
 
   def create
-    if User.find(current_user.id).role == 'user'
-      operator_id, count_requests = Request.joins(:user)
-                                           .where("users.role = 'operator'")
-                                           .group('users.id')
-                                           .count
-                                           .max_by { |key, value| value }
-      request = Request.create(user: User.find(operator_id))
+    if (User.find(current_user.id).role == 'user') || (User.find(current_user.id).role == 'manager')
+      req_by_user = Request.find_by_sql("SELECT \"requests\".* FROM \"requests\" WHERE \"requests\".\"user_id\" =
+        #{current_user.id} and \"requests\".\"product_id\" = #{params[:product_id]}")
+
+      unless req_by_user.count >= 1
+        operator = User.find_by_sql(['SELECT "users".id, count("requests".id)
+          FROM "users" left join "requests" on "users".id = "requests"."operator_id"
+          group by "requests".id, "users".id having "users".role = :role', { role: 'operator' }])
+                       .min_by(&:count)
+
+
+        request = Request.create
+        request.id = Request.last.nil? ? 1 : Request.last.id + 1
+        request.type_req = params[:type_req]
+        request.product_id = params[:product_id]
+        request.user_id = current_user.id
+        request.operator_id = operator.id.floor
+        request.save
+        render json: request
+      end
     else
-      request = Request.create(request_params)
+      req_by_user = Request.find_by_sql("SELECT \"requests\".* FROM \"requests\"
+        WHERE \"requests\".\"user_id\" = #{params[:user_id]} and \"requests\".\"product_id\" = #{params[:product_id]}")
+
+      unless req_by_user.count >= 1
+        request = Request.create
+        request.id = Request.last.nil? ? 1 : Request.last.id + 1
+        request.type_req = params[:type_req]
+        request.product_id = params[:product_id]
+        request.user_id = params[:user_id]
+        request.operator_id = current_user.id
+        request.save
+        render json: request
+      end
     end
-    render json: request
   end
 
   def update
     request = Request.find(params[:id])
-    request.update_attributes(request_params)
+    request.type_req = params[:type_req]
+    request.save
     render json: request
   end
 

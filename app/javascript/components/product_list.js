@@ -3,6 +3,7 @@ import axios from 'axios';
 import {AddProduct} from './product_add'
 import {RemoveProduct} from './product_remove'
 import {UpdateProduct} from './product_update'
+import {AddRequest} from './request_add'
 
 
 function ProductList({props}) {
@@ -43,6 +44,8 @@ function ProductList({props}) {
                                     <UpdateProduct id={product.id} i={i} setProduct={setProductState} productInfo={productState}/>
                                     <br/>
                                     <RemoveProduct id={product.id} i={i} setProduct={setProductState} state={productState}/>
+                                    <br/>
+                                    <AddRequest product_id={product.id} user_role={productState.role}/>
                                 </div>
                             </div>
                         </div>
@@ -52,6 +55,8 @@ function ProductList({props}) {
                             <div className="card">
                                 <div className="card-body" key={product.id}>
                                     <div>{product.name}</div>
+                                    <br />
+                                    <AddRequest product_id={product.id} user_role={productState.role}/>
                                 </div>
                             </div>
                         </div>
