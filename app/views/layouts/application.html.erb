@@ -21,6 +21,11 @@
       Outrighshop
     </a>
     <div>
+      <% if current_user != nil and User.find(current_user.id).role == 'manager' %>
+        <%= link_to 'Manager page', '/pages/manager/' %>
+      <% end %>
+    </div>
+    <div>
       <% if user_signed_in? %>
         <span>YO, <%= current_user.email %></span>
         <%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>

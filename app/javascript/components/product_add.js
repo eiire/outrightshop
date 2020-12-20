@@ -34,11 +34,22 @@ export function AddProduct({setProduct}) {
     return (
         <form onSubmit={add}>
             <hr />
-            <label htmlFor="name">Name:
-                <input onChange={changeHandler} type="text" name="name" value={productInfo.name}/>
-            </label>
-            Image: <input type="file" name="image" accept="image/*"/>
-            <input type="submit" value="Submit" className="btn btn-light"/>
+            <div className="form-group">
+                <label htmlFor="name">Name: </label>
+                <input className="form-control" onChange={changeHandler} type="text" name="name"
+                       value={productInfo.name}/>
+                <small id="emailHelp" className="form-text text-muted"> * Required field  </small>
+            </div>
+            <br />
+            <div className="form-group">
+                <label htmlFor="image">Image:</label>
+                <input className="form-control" type="file" name="image" accept="image/*"/>
+                <small id="emailHelp" className="form-text text-muted"> * Required field </small>
+            </div>
+            <br />
+            <div className="form-group">
+                <input type="submit" value="Submit" className="btn btn-light"/>
+            </div>
         </form>
     )
 }

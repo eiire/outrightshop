@@ -37,11 +37,23 @@ export function UpdateProduct({i, id, setProduct}) {
 
     return (
         <form onSubmit={update}>
-            <div>Name:&nbsp;
-                <input onChange={changeHandler} type="text" id="name" value={productInfo.name}/>
+            <hr />
+            <div className="form-group">
+                <label htmlFor="name">Name: </label>
+                <input onChange={changeHandler} type="text" id="name" value={productInfo.name} className="form-control"/>
+                <small id="emailHelp" className="form-text text-muted"> * Required field  </small>
             </div>
-            Image: <input type="file" name="image" accept="image/*"/>
-            <input type="submit" value="Update" className="btn btn-light"/>
+            <br />
+            <div className="form-group">
+                <label htmlFor="image">Image:</label>
+                <input className="form-control" type="file" name="image" accept="image/*"/>
+                <small id="emailHelp" className="form-text text-muted"> * Required field </small>
+            </div>
+            <br />
+            <div className="form-group">
+                <input type="submit" value="Update" className="btn btn-light"/>
+            </div>
         </form>
+
     )
 }

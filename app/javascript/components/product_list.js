@@ -35,7 +35,7 @@ function ProductList({props}) {
             <div className="row" style={{margin: 'auto'}}>
                 {productState.role === 'manager' && props.page === 'manager'
                     ? productState.products.map((product, i)=>(
-                        <div className="col-sm-3">
+                        <div className="col-sm-2">
                             <div className="card">
                                 <img className="card-img-top" src={product.image} style={{height: '25%'}}/>
                                 <div className="card-body" key={product.id}>
@@ -64,11 +64,16 @@ function ProductList({props}) {
                 ))}
             </div>
 
-            <div align="center">
-                {productState.role === 'manager' && props.page === 'manager'
-                    ? <AddProduct setProduct={setProductState}/>
-                    : <div/>
-                }
+            <div className="container">
+                <div className="row justify-content-center align-items-center">
+                    {productState.role === 'manager' && props.page === 'manager'
+                        ? <div>
+                            <h3 align="center" style={{margin:'5% 0 0 0'}}> Add products: </h3>
+                            <AddProduct setProduct={setProductState}/>
+                        </div>
+                        : <div/>
+                    }
+                </div>
             </div>
         </div>
     )
