@@ -1,6 +1,19 @@
 import axios from "axios";
 import React, {useState} from "react";
 
+const submitProduct = (formData, id) => {
+    const config = {
+        method: "PUT",
+        headers: {
+            "Authorization": localStorage.getItem("token"),
+            "Accept": "application/json",
+            "X-CSRF-TOKEN" : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: formData
+    }
+    return fetch('/api/products/' + id, config).then(res => res.json());
+}
+
 export function UpdateProduct({i, id, setProduct}) {
     const [productInfo, setProductInfo] = useState({name: ''});
     const changeHandler = ({target}) => {
@@ -10,25 +23,25 @@ export function UpdateProduct({i, id, setProduct}) {
         'X-Requested-With': 'XMLHttpRequest',
         'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
-    const update = () => axios({
-            method: 'PUT',
-            url: `/api/products/${id}`,
-            data: productInfo
-        })
-        .then(({data}) => {
+    const update = event => {
+        event.preventDefault()
+        const formData = new FormData(event.target)
+        submitProduct(formData, id).then((data) => {
             setProduct((prev) => {
-                const newList = [...prev];
+                const newList = [...prev.products];
                 newList[i] = data;
-                return newList;
-            })
+                return {loaded: true, role: "manager", products: newList};
+            });
         })
+    }
 
     return (
-        <form>
+        <form onSubmit={update}>
             <div>Name:&nbsp;
                 <input onChange={changeHandler} type="text" id="name" value={productInfo.name}/>
             </div>
-            <button onClick={update} className="btn btn-light">Update Product</button>
+            Image: <input type="file" name="image" accept="image/*"/>
+            <input type="submit" value="Update" className="btn btn-light"/>
         </form>
     )
 }

@@ -1,19 +1,34 @@
 class ProductsController < ActionController::Base
   before_action :manager?, except: [:index]
   def index
-    # User.find(current_user.id).update_attribute(:role, "manager")
-    render json: Product.all
+    render json: Product.all.reduce([]) { |json, product|
+      json.append(
+        {
+          id: product.id,
+          name: product.name,
+          image: product.get_image_url
+        }
+      )
+    }
   end
 
   def create
-    product = Product.create(product_params)
-    render json: product
+    product = Product.create
+    product.name = params[:name]
+    product.user = current_user
+    product.image = params[:image]
+    product.save
+
+    render json: { id: product.id, name: product.name, image: product.get_image_url }
   end
 
   def update
     product = Product.find(params[:id])
-    product.update_attributes(product_params)
-    render json: product
+    product.name = params[:name]
+    product.image = params[:image]
+    product.user = current_user
+    product.save
+    render json: { id: product.id, name: product.name, image: product.get_image_url }
   end
 
   def destroy
@@ -23,7 +38,7 @@ class ProductsController < ActionController::Base
   private
 
   def product_params
-    params.require(:product).permit(:name)
+    params.require(:product).permit(:name, :image)
   end
 
   def manager?

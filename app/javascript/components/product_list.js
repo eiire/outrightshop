@@ -24,7 +24,6 @@ function ProductList({props}) {
                     url: '/api/products'
                 }).then(({data}) => {
                     setProductState({loaded: true, role: user_role, products: data})
-                    console.log(productState)
                 })
             ])
         }())
@@ -33,12 +32,13 @@ function ProductList({props}) {
     return (
         <div>
             <h1 align="center">These are our products</h1>
-            <div className="row">
+            <div className="row" style={{margin: 'auto'}}>
                 {productState.role === 'manager' && props.page === 'manager'
                     ? productState.products.map((product, i)=>(
-                        <div className="col-sm-6">
+                        <div className="col-sm-3">
                             <div className="card">
-                                <div class="card-body" key={product.id}>
+                                <img className="card-img-top" src={product.image} style={{height: '25%'}}/>
+                                <div className="card-body" key={product.id}>
                                     <div>{product.name}</div>
                                     <br/>
                                     <UpdateProduct id={product.id} i={i} setProduct={setProductState} productInfo={productState}/>
@@ -51,8 +51,9 @@ function ProductList({props}) {
                         </div>
                     ))
                     : productState.products.map((product, i)=>(
-                        <div className="col-sm-6">
+                        <div className="col-sm-3">
                             <div className="card">
+                                <img className="card-img-top" src={product.image}/>
                                 <div className="card-body" key={product.id}>
                                     <div>{product.name}</div>
                                     <br />
