@@ -26,6 +26,11 @@
       <% end %>
     </div>
     <div>
+      <% if current_user != nil and User.find(current_user.id).role == 'operator' %>
+        <%= link_to 'Operator page', '/pages/operator/' %>
+      <% end %>
+    </div>
+    <div>
       <% if user_signed_in? %>
         <span>YO, <%= current_user.email %></span>
         <%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>
