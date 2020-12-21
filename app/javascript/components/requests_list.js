@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {RemoveRequest} from "./request_remove";
 
 
 function RequestList({props}) {
@@ -37,6 +38,7 @@ function RequestList({props}) {
                                 <div className="card-body" key={requests.id}>
                                     <div> Requests type: {requests.type_req}</div>
                                     <div> Product id: {requests.product_id}</div>
+                                    <RemoveRequest i={i} id={requests.id} setReq={setReqState} state={reqState}/>
                                 </div>
                             </div>
                         </div>
