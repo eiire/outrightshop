@@ -1,5 +1,6 @@
 class RequestsController < ActionController::Base
   before_action :operator?, except: [:index, :create]
+  @@types_req = %w[processing accepted completed]
   def index
     begin
       user_role = User.find(current_user.id).role
@@ -27,7 +28,7 @@ class RequestsController < ActionController::Base
 
         request = Request.create
         request.id = Request.last.nil? ? 1 : Request.last.id + 1
-        request.type_req = params[:type_req]
+        request.type_req = @@types_req[0]
         request.product_id = params[:product_id]
         request.user_id = current_user.id
         request.operator_id = operator.id.floor
@@ -53,12 +54,17 @@ class RequestsController < ActionController::Base
 
   def update
     request = Request.find(params[:id])
-    request.type_req = params[:type_req]
-    request.save
-    render json: request
+    begin
+      request.type_req = @@types_req[@@types_req.index(params[:type_req]) + 1] unless params[:type_req] == 'completed'
+      request.save
+      render json: request
+    rescue
+      render json: {error: 'incorrect type requests'}, status: 500
+    end
   end
 
   def destroy
+    p params, 'sdgdgsd'
     Request.destroy(params[:id])
   end
 

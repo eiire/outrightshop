@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, {useState} from "react";
 
 const submitProduct = (formData, id) => {
@@ -19,13 +18,11 @@ export function UpdateProduct({i, id, setProduct}) {
     const changeHandler = ({target}) => {
         setProductInfo((prev) => ({...prev, [target.id]:target.value}));
     }
-    axios.defaults.headers.common = {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    };
+
     const update = event => {
         event.preventDefault()
         const formData = new FormData(event.target)
+        formData.append('name', event.target.name.value)
         submitProduct(formData, id).then((data) => {
             setProduct((prev) => {
                 const newList = [...prev.products];
@@ -54,6 +51,5 @@ export function UpdateProduct({i, id, setProduct}) {
                 <input type="submit" value="Update" className="btn btn-light"/>
             </div>
         </form>
-
     )
 }

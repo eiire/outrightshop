@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {RemoveRequest} from "./request_remove";
+import {UpdateReq} from "./req_stts_update";
 
 
 function RequestList({props}) {
@@ -36,9 +37,10 @@ function RequestList({props}) {
                         <div className="col-sm-12">
                             <div className="card">
                                 <div className="card-body" key={requests.id}>
-                                    <div> Requests type: {requests.type_req}</div>
+                                    <div> Status: {requests.type_req}</div>
                                     <div> Product id: {requests.product_id}</div>
                                     <RemoveRequest i={i} id={requests.id} setReq={setReqState} state={reqState}/>
+                                    <UpdateReq i={i} id={requests.id} setReq={setReqState} state={requests.type_req}/>
                                 </div>
                             </div>
                         </div>
