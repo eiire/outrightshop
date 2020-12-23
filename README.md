@@ -83,6 +83,7 @@
 * Test application
     ```bash
     rails s
-    rspec
     ```
-  
+    ```bash
+    jest
+    ```

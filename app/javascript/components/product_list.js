@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {AddProduct} from './product_add'
 import {RemoveProduct} from './product_remove'
 import {UpdateProduct} from './product_update'
@@ -8,22 +7,23 @@ import {AddRequest} from './request_add'
 
 function ProductList({props}) {
     const [productState, setProductState] = useState({products:[], role: 'user', loaded: false});
-    let user_role;
 
     useEffect(() => {
         (async function() {
             await Promise.all([
-                await axios({
+                await fetch('/api/products', {
                     method: 'GET',
-                    url: '/api/roles'
-                }).then(({data}) => {
-                    user_role = data.role
-                }),
-                await axios({
-                    method: 'GET',
-                    url: '/api/products'
-                }).then(({data}) => {
-                    setProductState({loaded: true, role: user_role, products: data})
+                    headers: {
+                        "Authorization": localStorage.getItem("token"),
+                        "Accept": "application/json",
+                        // "X-CSRF-TOKEN" : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                }).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    setProductState(() => {
+                        return data
+                    })
                 })
             ])
         }())
@@ -68,7 +68,7 @@ function ProductList({props}) {
                 <div className="row justify-content-center align-items-center">
                     {productState.role === 'manager' && props.page === 'manager'
                         ? <div>
-                            <h3 align="center" style={{margin:'5% 0 0 0'}}> Add products: </h3>
+                            <h3 id={"manager_entry_title"} align="center" style={{margin:'5% 0 0 0'}}> Add products: </h3>
                             <AddProduct setProduct={setProductState}/>
                         </div>
                         : <div/>

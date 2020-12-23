@@ -1,15 +1,35 @@
 class ProductsController < ActionController::Base
   before_action :manager?, except: [:index]
   def index
-    render json: Product.all.reduce([]) { |json, product|
-      json.append(
-        {
-          id: product.id,
-          name: product.name,
-          image: product.get_image_url
-        }
-      )
-    }
+    begin
+      render json: {
+        loaded: true,
+        products: Product.all.reduce([]) { |json, product|
+          json.append(
+            {
+              id: product.id,
+              name: product.name,
+              image: product.get_image_url
+            }
+          )
+        },
+        role: User.find(current_user.id).role
+      }
+    rescue StandardError
+      render json: {
+          loaded: true,
+          products: Product.all.reduce([]) { |json, product|
+            json.append(
+                {
+                    id: product.id,
+                    name: product.name,
+                    image: product.get_image_url
+                }
+            )
+          },
+          role: "anonymous"
+      }
+    end
   end
 
   def create
