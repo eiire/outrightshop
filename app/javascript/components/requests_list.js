@@ -1,28 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {RemoveRequest} from "./request_remove";
 import {UpdateReq} from "./req_stts_update";
 
 
 function RequestList({props}) {
     const [reqState, setReqState] = useState({requests:[], role: 'user', loaded: false});
-    let user_role;
 
     useEffect(() => {
         (async function() {
             await Promise.all([
-                await axios({
+                await fetch('/api/requests', {
                     method: 'GET',
-                    url: '/api/roles'
-                }).then(({data}) => {
-                    user_role = data.role
-                }),
-                await axios({
-                    method: 'GET',
-                    url: '/api/requests'
-                }).then(({data}) => {
-                    console.log(data)
-                    setReqState({loaded: true, role: user_role, requests: data})
+                    headers: {
+                        "Authorization": localStorage.getItem("token"),
+                        "Accept": "application/json",
+                    },
+                }).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    setReqState(() => {
+                        return data
+                    })
                 })
             ])
         }())
@@ -41,6 +39,7 @@ function RequestList({props}) {
                                     <div> Product id: {requests.product_id}</div>
                                     <RemoveRequest i={i} id={requests.id} setReq={setReqState} state={reqState}/>
                                     <UpdateReq i={i} id={requests.id} setReq={setReqState} state={requests.type_req}/>
+                                    {console.log('fdddfdfdfdfdf')}
                                 </div>
                             </div>
                         </div>

@@ -2,16 +2,22 @@ class RequestsController < ActionController::Base
   before_action :operator?, except: [:index, :create]
   @@types_req = %w[processing accepted completed]
   def index
-    begin
-      user_role = User.find(current_user.id).role
-      if (user_role == 'user') || (user_role == 'manager')
-        render json: Request.find_by_sql("SELECT \"requests\".* FROM \"requests\" WHERE \"requests\".\"user_id\" = #{current_user.id}")
-      else
-        render json: Request.find_by_sql("SELECT \"requests\".* FROM \"requests\" WHERE \"requests\".\"operator_id\" = #{current_user.id}")
-      end
-    rescue
-      render json: { role: 'anonymous' }
+    user_role = User.find(current_user.id).role
+    if (user_role == 'user') || (user_role == 'manager')
+      render json: {
+        loaded: true,
+        requests: Request.find_by_sql("SELECT \"requests\".* FROM \"requests\" WHERE \"requests\".\"user_id\" = #{current_user.id}"),
+        role: User.find(current_user.id).role
+      }
+    else
+      render json: {
+        loaded: true,
+        requests: Request.find_by_sql("SELECT \"requests\".* FROM \"requests\" WHERE \"requests\".\"operator_id\" = #{current_user.id}"),
+        role: User.find(current_user.id).role
+      }
     end
+  rescue StandardError
+    render json: { role: 'anonymous' }
   end
 
   def create
@@ -54,17 +60,14 @@ class RequestsController < ActionController::Base
 
   def update
     request = Request.find(params[:id])
-    begin
-      request.type_req = @@types_req[@@types_req.index(params[:type_req]) + 1] unless params[:type_req] == 'completed'
-      request.save
-      render json: request
-    rescue
-      render json: {error: 'incorrect type requests'}, status: 500
-    end
+    request.type_req = @@types_req[@@types_req.index(params[:type_req]) + 1] unless params[:type_req] == 'completed'
+    request.save
+    render json: request
+  rescue StandardError
+    render json: { error: 'incorrect type requests' }, status: 500
   end
 
   def destroy
-    p params, 'sdgdgsd'
     Request.destroy(params[:id])
   end
 

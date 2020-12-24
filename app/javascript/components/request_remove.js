@@ -1,16 +1,14 @@
-import axios from "axios";
 import React from "react";
 
 export function RemoveRequest({id, i, setReq, state}) {
-    axios.defaults.headers.common = {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    };
-
-    const remove = () => axios({
+    const remove = () => fetch( '/api/requests/' + id,{
             method: 'DELETE',
-            url: `/api/requests/${id}`
-        }).then(() => {
+            headers: {
+                "Authorization": localStorage.getItem("token"),
+                "Accept": "application/json",
+                "X-CSRF-TOKEN" : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then(res => res.json()).then(() => {
             let new_requests = [...state.products]
             new_requests.splice(i, 1)
             setReq({products: new_requests, role: state.role, loaded: state.loaded});
