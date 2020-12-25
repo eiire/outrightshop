@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :request do
-    type { "" }
-    user { "" }
+    type { '' }
+    user { '' }
   end
 end

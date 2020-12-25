@@ -21,7 +21,7 @@ gem 'jbuilder', '~> 2.7'
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'parser', '2.7.2'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
@@ -32,14 +32,14 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'database_cleaner-active_record'
+  gem 'devise'
   gem 'factory_bot_rails'
+  gem 'react-rails', '~> 1.7', '>= 1.7.1'
   gem 'rspec-rails', '~> 4.0.1'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'simplecov'
-  gem 'devise'
-  gem 'react-rails', '~> 1.7', '>= 1.7.1'
 end
 
 group :development do

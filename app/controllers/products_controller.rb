@@ -37,7 +37,8 @@ class ProductsController < ActionController::Base
     product.image = params[:image]
     product.save
 
-    render json: { id: product.id, name: product.name, image: product.get_image_url }
+    render json: { id: product.id,
+                   name: product.name, image: product.get_image_url }
   end
 
   def update
@@ -46,7 +47,8 @@ class ProductsController < ActionController::Base
     product.image = params[:image]
     product.user = current_user
     product.save
-    render json: { id: product.id, name: product.name, image: product.get_image_url }
+    render json: { id: product.id,
+                   name: product.name, image: product.get_image_url }
   end
 
   def destroy

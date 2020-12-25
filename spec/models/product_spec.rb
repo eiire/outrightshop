@@ -6,7 +6,8 @@ RSpec.describe Product, type: :model do
   end
 
   it 'is valid with invalid image' do
-    u1 = User.create!({ email: 'guy@gmail.com', role: ['manager'], password: '111111', password_confirmation: '111111' })
+    u1 = User.create!({ email: 'guy@gmail.com', role: ['manager'], password: '111111',
+                        password_confirmation: '111111' })
     p = Product.new
     p.id = 1
     p.user = u1

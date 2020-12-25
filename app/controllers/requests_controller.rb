@@ -1,5 +1,6 @@
 class RequestsController < ActionController::Base
-  before_action :operator?, except: [:index, :create]
+  before_action :operator?,
+                except: %i[index create]
   @@types_req = %w[processing accepted completed]
   def index
     user_role = User.find(current_user.id).role
@@ -30,7 +31,6 @@ class RequestsController < ActionController::Base
           FROM "users" left join "requests" on "users".id = "requests"."operator_id"
           group by "requests".id, "users".id having "users".role = :role', { role: 'operator' }])
                        .min_by(&:count)
-
 
         request = Request.create
         request.id = Request.last.nil? ? 1 : Request.last.id + 1
@@ -74,7 +74,9 @@ class RequestsController < ActionController::Base
   private
 
   def request_params
-    params.require(:request).permit(:current_user.id, :type_req)
+    params.require(:request).permit(
+      :current_user.id, :type_req
+    )
   end
 
   def operator?

@@ -8,6 +8,6 @@ class Product < ApplicationRecord
   }
 
   def get_image_url
-    url_for(self.image)
+    url_for(image)
   end
 end
