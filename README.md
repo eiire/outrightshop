@@ -87,3 +87,6 @@
     ```bash
     jest
     ```
+    ```bash
+    rspec
+    ```

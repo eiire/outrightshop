@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'page/page.html.erb', type: :view do
+RSpec.describe 'pages/home.html.erb', type: :view do
   it 'renders "Hello World"' do
     render
-    expect(rendered).to match(/YO/)
+    expect(rendered).to match(/product_list/)
   end
 end
