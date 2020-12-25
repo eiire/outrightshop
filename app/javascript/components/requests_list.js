@@ -39,12 +39,21 @@ function RequestList({props}) {
                                     <div> Product id: {requests.product_id}</div>
                                     <RemoveRequest i={i} id={requests.id} setReq={setReqState} state={reqState}/>
                                     <UpdateReq i={i} id={requests.id} setReq={setReqState} state={requests.type_req}/>
-                                    {console.log('fdddfdfdfdfdf')}
                                 </div>
                             </div>
                         </div>
                     ))
-                    : <div />
+                    : reqState.requests.map((requests, i)=>(
+                        <div className="col-sm-12">
+                            <br />
+                            <div className="card">
+                                <div className="card-body" key={requests.id}>
+                                    <div> Status: {requests.type_req}</div>
+                                    <div> Product id: {requests.product_id}</div>
+                                </div>
+                            </div>
+                        </div>
+                    ))
                 }
             </div>
         </div>

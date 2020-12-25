@@ -48,6 +48,7 @@ function ProductList({props}) {
                                     <AddRequest product_id={product.id} user_role={productState.role}/>
                                 </div>
                             </div>
+                            <br />
                         </div>
                     ))
                     : productState.products.map((product, i)=>(
@@ -60,6 +61,7 @@ function ProductList({props}) {
                                     <AddRequest product_id={product.id} user_role={productState.role}/>
                                 </div>
                             </div>
+                            <br />
                         </div>
                 ))}
             </div>
