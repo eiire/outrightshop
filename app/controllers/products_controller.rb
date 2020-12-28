@@ -3,65 +3,40 @@ class ProductsController < ActionController::Base
   def index
     render json: {
       loaded: true,
-      products: Product.all.reduce([]) do |json, product|
-        json.append(
-          {
-            id: product.id,
-            name: product.name,
-            image: product.get_image_url
-          }
-        )
-      end,
-      role: User.find(current_user.id).role
-    }
-  rescue StandardError
-    render json: {
-      loaded: true,
-      products: Product.all.reduce([]) do |json, product|
-        json.append(
-          {
-            id: product.id,
-            name: product.name,
-            image: product.get_image_url
-          }
-        )
-      end,
-      role: 'anonymous'
+      role: current_user.nil? ? 'anonymous' : current_user.role,
+      products: Jbuilder.new { |json| json.array! Product.all, :id, :name, :image_url }.array!
     }
   end
 
   def create
-    product = Product.create
-    product.name = params[:name]
-    product.user = current_user
-    product.image = params[:image]
-    product.save
-
-    render json: { id: product.id,
-                   name: product.name, image: product.get_image_url }
+    product = Product.create(product_params)
+    if product.valid?
+      render json: { id: product.id, name: product.name, image_url: product.image_url }, status: :ok
+    else
+      render json: { errors: product.errors }, status: :unprocessable_entity
+    end
   end
 
   def update
-    product = Product.find(params[:id])
-    product.name = params[:name]
-    product.image = params[:image]
-    product.user = current_user
-    product.save
-    render json: { id: product.id,
-                   name: product.name, image: product.get_image_url }
+    product = Product.find(product_params[:id])
+    if product.update_attributes(product_params)
+      render json: { id: product.id, name: product.name, image_url: product.image_url }, status: :ok
+    else
+      render json: { errors: product.errors }, status: :unprocessable_entity
+    end
   end
 
   def destroy
-    Product.destroy(params[:id])
+    Product.destroy(product_params[:id])
   end
 
   private
 
   def product_params
-    params.require(:product).permit(:name, :image)
+    params.permit(:name, :image, :id).to_h.merge! user: current_user
   end
 
   def manager?
-    render json: { error: 'You are not a page!' } unless User.find(current_user.id).role == 'manager'
+    current_user.role == 'manager'
   end
 end

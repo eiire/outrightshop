@@ -22,6 +22,7 @@ function ProductList({props}) {
                     return response.json();
                 }).then((data) => {
                     setProductState(() => {
+                        console.log(data)
                         return data
                     })
                 })
@@ -37,7 +38,7 @@ function ProductList({props}) {
                     ? productState.products.map((product, i)=>(
                         <div className="col-sm-2">
                             <div className="card">
-                                <img className="card-img-top" src={product.image} style={{height: '25%'}}/>
+                                <img className="card-img-top" src={product.image_url} style={{height: '25%'}}/>
                                 <div className="card-body" key={product.id}>
                                     <div>{product.name}</div>
                                     <br/>
@@ -54,7 +55,7 @@ function ProductList({props}) {
                     : productState.products.map((product, i)=>(
                         <div className="col-sm-3">
                             <div className="card">
-                                <img className="card-img-top" src={product.image}/>
+                                <img className="card-img-top" src={product.image_url}/>
                                 <div className="card-body" key={product.id}>
                                     <div>{product.name}</div>
                                     <br />

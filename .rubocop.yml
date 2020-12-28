@@ -34,3 +34,6 @@ Metrics/BlockLength:
 
 Metrics/CyclomaticComplexity:
   Max: 10
+
+Lint/MissingSuper:
+  Enabled: false

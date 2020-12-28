@@ -23,12 +23,13 @@ export function AddProduct({setProduct}) {
         event.preventDefault()
         const formData = new FormData(event.target)
         submitProduct(formData).then((data) => {
+            console.log(data)
             setProduct((prev) => {
                 const newList = [...prev.products];
                 newList.push(data);
                 return {loaded: true, role: "manager", products: newList};
             });
-        })
+        }).catch(error => console.log(error))
     }
 
     return (

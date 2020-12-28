@@ -18,9 +18,13 @@ function RequestList({props}) {
                 }).then((response) => {
                     return response.json();
                 }).then((data) => {
-                    setReqState(() => {
-                        return data
-                    })
+                    if (data.loaded) {
+                        setReqState(() => {
+                            return data
+                        })
+                    } else {
+                        alert('You must authenticate!')
+                    }
                 })
             ])
         }())

@@ -3,11 +3,10 @@ class Product < ApplicationRecord
   has_one_attached :image
   belongs_to :user
 
-  validates :image, {
-    presence: true
-  }
+  validates :image, { presence: true }
+  validates :name, { presence: true }
 
-  def get_image_url
+  def image_url
     url_for(image)
   end
 end
